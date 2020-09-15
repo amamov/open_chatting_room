@@ -8,37 +8,34 @@ const Auth = () => {
   const [error, setError] = useState("");
 
   const onChange = (event) => {
-    // console.log(event.target.name);
     const {
       target: { name, value },
     } = event;
-
+    console.log(name);
     if (name === "email") {
       setEmail(value);
     } else if (name === "password") {
       setPassword(value);
     }
   };
-  // setPersistence : 사용자의 로그인 정보 저장 방법
 
   const onSubmit = async (event) => {
     event.preventDefault();
     try {
       let data;
       if (newAccount) {
-        // create account
+        // 회원가입
         data = await authService.createUserWithEmailAndPassword(
           email,
           password
         );
       } else {
-        // log in
+        // 로그인
         data = await authService.signInWithEmailAndPassword(email, password);
       }
       console.log(data);
-    } catch (error) {
-      console.log(error);
-      setError(error.message);
+    } catch (e) {
+      setError(e.message);
     }
   };
 
@@ -47,51 +44,54 @@ const Auth = () => {
   };
 
   const onSocialClick = async (event) => {
-    // console.log(event.target.name);
+    // console.log(name);
+
     const {
       target: { name },
     } = event;
     let provider;
+
     if (name === "google") {
+      // Continue with google
       provider = new firebaseInstance.auth.GoogleAuthProvider();
     } else if (name === "github") {
+      // Continue with github
       provider = new firebaseInstance.auth.GithubAuthProvider();
     }
-    const data = await authService.signInWithPopup(provider);
-    console.log(data);
+    await authService.signInWithPopup(provider);
+    // const data = await authService.signInWithPopup(provider);
+    // console.log(data);
   };
 
   return (
     <div>
       <form onSubmit={onSubmit}>
         <input
-          name="email"
           type="email"
+          name="email"
           value={email}
           placeholder="Email"
-          required
           onChange={onChange}
         />
         <input
-          name="password"
           type="password"
+          name="password"
           value={password}
           placeholder="Password"
-          required
           onChange={onChange}
         />
         <input type="submit" value={newAccount ? "Create Account" : "Log In"} />
         {error}
       </form>
-      <span onClick={toggleAccount}>
-        {newAccount ? "Sign In" : "Create Account"}
-      </span>
+      <button onClick={toggleAccount}>
+        {newAccount ? "Log In" : "Create Account"}
+      </button>
       <div>
-        <button onClick={onSocialClick} name={"google"}>
+        <button onClick={onSocialClick} name="google">
           Continue with Google
         </button>
-        <button onClick={onSocialClick} name={"github"}>
-          Continue with Google
+        <button name="github" onClick={onSocialClick}>
+          Continue with Github
         </button>
       </div>
     </div>

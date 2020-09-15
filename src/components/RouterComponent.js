@@ -6,7 +6,7 @@ import Home from "routes/Home";
 import Profile from "routes/Profile";
 import Navigation from "components/Navigation";
 
-const RouterComponent = ({ isLoggedIn }) => {
+const RouterComponent = ({ isLoggedIn, userObj }) => {
   return (
     <HashRouter>
       {isLoggedIn && <Navigation />}
@@ -14,23 +14,24 @@ const RouterComponent = ({ isLoggedIn }) => {
         {isLoggedIn ? (
           <>
             <Route exact path="/">
-              <Home />
+              <Home userObj={userObj} />
             </Route>
             <Route exact path="/profile">
               <Profile />
             </Route>
             {/* "/", "/profile"가 route에 있으면 상관 없는데 그 외의 route로 가게 되면 여기 "/"로 돌아가라는 의미이다. */}
-            {/* <Redirect from="*" to="/" /> */}
+            <Redirect from="*" to="/" />
           </>
         ) : (
-          <Route exact path="/">
-            <Auth />
-          </Route>
-          // <Redirect from="*" to="/" />
+          <>
+            <Route exact path="/">
+              <Auth />
+            </Route>
+            <Redirect from="*" to="/" />
+          </>
         )}
       </Switch>
     </HashRouter>
   );
 };
-
 export default RouterComponent;

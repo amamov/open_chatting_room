@@ -1,6 +1,7 @@
-// forebasePack.js
-import * as firebase from "firebase/app";
+// firebasePack.js
+import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -11,8 +12,13 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGIN_ID,
   appId: process.env.REACT_APP_APP_ID,
 };
+
 firebase.initializeApp(firebaseConfig);
 
+export const firebaseInstance = firebase;
+
+// auth(로그인, 회워가입, 사용자)
 export const authService = firebase.auth();
 
-export const firebaseInstance = firebase;
+// DB(데이터베이스)
+export const dbService = firebase.firestore();
