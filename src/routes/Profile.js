@@ -1,18 +1,19 @@
+// Profile.js
 import React from "react";
-// import { useHistory } from "react-router-dom";
-import { authService } from "forebasePack";
+import { authService } from "firebasePack";
 
 const Profile = () => {
-  // const history = useHistory();
-  const onLogOutClick = () => {
-    authService.signOut();
-    // 로그아웃을 하게 되면 현재 라우트를 빠져나간다.
-    // 라우트를 빠져나갈때, history.push("/")를 해준다.
-    // history.push("/");
+  const onLogOutClick = async () => {
+    try {
+      await authService.signOut();
+    } catch (err) {
+      console.log(err.message);
+    }
   };
+
   return (
     <>
-      <button onClick={onLogOutClick}>Log Out</button>
+      <button onClick={onLogOutClick}>Sign Out</button>
     </>
   );
 };

@@ -17,8 +17,6 @@ firebase.initializeApp(firebaseConfig);
 
 export const firebaseInstance = firebase;
 
-// auth(로그인, 회워가입, 사용자)
 export const authService = firebase.auth();
 
-// DB(데이터베이스)
 export const dbService = firebase.firestore();

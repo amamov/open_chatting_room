@@ -1,12 +1,12 @@
-// RouterComponent.js
+// AppRouter.js
 import React from "react";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
-import Auth from "routes/Auth";
+import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 import Home from "routes/Home";
 import Profile from "routes/Profile";
+import Auth from "routes/Auth";
 import Navigation from "components/Navigation";
 
-const RouterComponent = ({ isLoggedIn, userObj }) => {
+const AppRouter = ({ isLoggedIn, userObj }) => {
   return (
     <HashRouter>
       {isLoggedIn && <Navigation />}
@@ -19,7 +19,6 @@ const RouterComponent = ({ isLoggedIn, userObj }) => {
             <Route exact path="/profile">
               <Profile />
             </Route>
-            {/* "/", "/profile"가 route에 있으면 상관 없는데 그 외의 route로 가게 되면 여기 "/"로 돌아가라는 의미이다. */}
             <Redirect from="*" to="/" />
           </>
         ) : (
@@ -34,4 +33,5 @@ const RouterComponent = ({ isLoggedIn, userObj }) => {
     </HashRouter>
   );
 };
-export default RouterComponent;
+
+export default AppRouter;
