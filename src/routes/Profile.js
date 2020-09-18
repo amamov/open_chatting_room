@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { authService, dbService } from "firebasePack";
 
-const Profile = ({ userObj }) => {
+const Profile = ({ refreshUser, userObj }) => {
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
   const onLogOutClick = async () => {
@@ -15,12 +15,12 @@ const Profile = ({ userObj }) => {
     // pre-made query를 만들어야 한다.
     // 즉, 우리가 이 쿼리를 사용할 거라고 DB에 알려주어야 한다.
     // 처음 실행하고 에러 메세지의 url을 들어가면 쿼리 생성을 도와준다.
-    const chats = await dbService
+    const myChats = await dbService
       .collection("chats")
-      .where("creatorId", "==", userObj.uid)
+      .where("creatorId", "==", "userObj.uid")
       .orderBy("createAt")
       .get();
-    // console.log(chats.docs.map((doc) => doc.data()));
+    // console.log(myChats.docs.map((doc) => doc.data()));
   };
 
   useEffect(() => {
@@ -35,6 +35,7 @@ const Profile = ({ userObj }) => {
       await userObj.updateProfile({
         displayName: newDisplayName,
       });
+      refreshUser();
     }
   };
 
