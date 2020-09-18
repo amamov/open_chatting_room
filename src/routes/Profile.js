@@ -4,9 +4,13 @@ import { authService, dbService } from "firebasePack";
 
 const Profile = ({ refreshUser, userObj }) => {
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+  const history = useHistory();
 
   const onLogOutClick = async () => {
+    // 로그아웃
     await authService.signOut();
+    // history.push("/");
+    history.go(0); // 새로고침
   };
 
   const getMychat = async () => {
