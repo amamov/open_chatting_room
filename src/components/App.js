@@ -1,12 +1,11 @@
 // App.js
 import React, { useState, useEffect } from "react";
-import AppRouter from "components/AppRouter";
 import { authService } from "firebasePack";
+import AppRouter from "./AppRouter";
 
 function App() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [init, setInit] = useState(false);
   const [userObj, setUserObj] = useState(null);
+  const [init, setInit] = useState(false);
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
@@ -26,7 +25,6 @@ function App() {
 
   const refreshUser = () => {
     // 만약 user의 정보가 업데이트 되었다면 실행 시켜줄 함수
-
     // setUserObj(authService.currentUser);
     // react는 state가 변경되면 다시 랜더링 한다. 하지만
     // authService.currentUser의 객체 깊이가 깊은 부분을 수정하면 state의 변경상태를 체크를 하지 못하고
@@ -51,7 +49,6 @@ function App() {
       ) : (
         "initializing..."
       )}
-      <footer>&copy; Yoon - Sang Seok {new Date().getFullYear()}</footer>
     </>
   );
 }

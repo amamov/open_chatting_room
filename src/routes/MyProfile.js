@@ -1,12 +1,19 @@
 // Profile.js
 import React, { useEffect, useState } from "react";
 import { authService, dbService } from "firebasePack";
+import { useHistory } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
-const Profile = ({ refreshUser, userObj }) => {
+const MyProfile = ({ refreshUser, userObj }) => {
+  const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+  const [myChats, setMyChats] = useState([]);
 
   const onLogOutClick = async () => {
+    // 로그아웃
     await authService.signOut();
+    // history.push("/");
+    history.go(0); // 새로고침
   };
 
   const getMychat = async () => {
@@ -15,12 +22,13 @@ const Profile = ({ refreshUser, userObj }) => {
     // pre-made query를 만들어야 한다.
     // 즉, 우리가 이 쿼리를 사용할 거라고 DB에 알려주어야 한다.
     // 처음 실행하고 에러 메세지의 url을 들어가면 쿼리 생성을 도와준다.
-    const myChats = await dbService
+    const myChatPromiseObjs = await dbService
       .collection("chats")
-      .where("creatorId", "==", "userObj.uid")
+      .where("creatorId", "==", userObj.uid)
       .orderBy("createAt")
       .get();
-    // console.log(myChats.docs.map((doc) => doc.data()));
+    const myChatArray = myChatPromiseObjs.docs.map((doc) => doc.data());
+    setMyChats(myChatArray);
   };
 
   useEffect(() => {
@@ -58,8 +66,11 @@ const Profile = ({ refreshUser, userObj }) => {
         <input type="submit" placeholder="Update profile" />
       </form>
       <button onClick={onLogOutClick}>Sign Out</button>
+      {myChats.map((chatObj) => (
+        <div key={uuidv4()}>{chatObj.text}</div>
+      ))}
     </>
   );
 };
 
-export default Profile;
+export default MyProfile;
