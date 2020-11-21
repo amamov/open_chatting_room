@@ -18,13 +18,13 @@ const ChatFactory = ({ userObj }) => {
     const theFile = files[0];
     // console.log(theFile);
     const reader = new FileReader();
+    // 이미지를 브라우저에서 볼 수 있도록 URL로 전달한다.
+    reader.readAsDataURL(theFile);
     reader.onloadend = ({ currentTarget: { result } }) => {
       // 파일에 대한 읽기 동작이 끝났을 때 실행
       // console.log(result);
       setFileAttachment(result);
     };
-    // 이미지를 브라우저에서 볼 수 있도록 URL로 전달한다.
-    reader.readAsDataURL(theFile);
   };
 
   const onSubmit = async (event) => {
