@@ -171,6 +171,12 @@ useEffect(() => {
       - 객체의 수정하고 싶은 key의 value만 바꾸면 나머지 데이터는 그대로 유지되고 바꾼 데이터만 바꿔서 DB에 저장된다.
       - update ( data :  UpdateData ) : Promise < void >
 
+    6. dbService.collection("myCollecttion").where("creatorId", "==", userObj.uid).orderBy("createAt").get();
+
+      - DB 조건 조회
+      - orderBy("createAt")으로 하면 "The query requires an index" 에러가 난다. pre-made query를 만들어야 한다.
+       즉, 우리가 이 쿼리를 사용할 거라고 DB에 알려주어야 한다.  처음 실행하고 에러 메세지의 url을 들어가면 쿼리 생성을 도와준다.
+
 ---
 
 ## Storage
